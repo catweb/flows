@@ -1,6 +1,59 @@
-extends ../layouts/layout
+extends ../layouts/layout-main
 
 block config
-    - var pageTitle = "Главная";
+    - var pageTitle = "Flows";
 
 block content
+    .flows-canvas#flows-canvas
+        .flows-box(style='left:20px; top:30px')#box1
+            .flows-box__header
+                .flows-box__header__handle
+                .flows-box__header__icon
+                    img(src='/img/test/icon.png')
+                .flows-box__header__text Approval - User
+                .flows-box__header__close
+                    img(src='/img/test/cross-circle.png')
+
+            .flows-box__content
+            .flows-box__footer
+                .flows-box__footer__item
+                    span Approved
+                    .flows-box__output#box1out1
+                .flows-box__footer__item
+                    span Disapproved
+                    .flows-box__output#box1out2
+
+        .flows-box(style='left:200px; top:300px').active#box2
+            .flows-box__header
+                .flows-box__header__handle
+                .flows-box__header__icon
+                    img(src='/img/test/icon.png')
+                .flows-box__header__text Approval - User
+                .flows-box__header__close
+                    img(src='/img/test/cross-circle.png')
+
+            .flows-box__content Change Request - Normal
+            .flows-box__footer
+                .flows-box__footer__item
+                    span Approved
+                    .flows-box__output#box2out1
+                .flows-box__footer__item
+                    span Disapproved
+                    .flows-box__output#box2out2
+
+        .flows-box(style='left:300px; top:50px').active#box3
+            .flows-box__header
+                .flows-box__header__handle
+                .flows-box__header__icon
+                    img(src='/img/test/icon.png')
+                .flows-box__header__text Approval - User
+                .flows-box__header__close
+                    img(src='/img/test/cross-circle.png')
+
+            .flows-box__content Change Request - Normal
+            .flows-box__footer
+                .flows-box__footer__item
+                    span Approved
+                    .flows-box__output#box3out1
+
+
