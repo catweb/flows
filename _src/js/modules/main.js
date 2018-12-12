@@ -1,11 +1,18 @@
+class FlowsCanvas {
+  constructor(canvas){
+    this.canvas = canvas;
+
+    this.setup();
+  }
+
+  setup() {
+
+  }
+}
+
 jsPlumb.ready(function () {
-  var $canvas = $('.flows-canvas');
   var jsp = jsPlumb.getInstance({
-    Endpoint: ["Dot", {
-      radius: 1
-      , cssClass: 'hidden'
-    }],
-    // Endpoints : [ [ "Blank", {} ], [ "Dot", { radius:5 } ] ],
+    Endpoint: ["Dot", {radius: 1, cssClass: 'flows-hidden'}],
     Connector: ["Flowchart",
       {
         gap: 0,
@@ -18,24 +25,10 @@ jsPlumb.ready(function () {
         visible: true,
         width: 5,
         length: 10,
-        id: "ARROW",
-        events: {
-          click: function () {
-            alert("you clicked on the arrow overlay")
-          }
-        }
+        id: "ARROW"
       }]
-      // ,
-      // [ "Label", {
-      //   location: 0.1,
-      //   id: "label",
-      //   cssClass: "aLabel",
-      //   events:{
-      //     tap:function() { alert("hey"); }
-      //   }
-      // }]
     ],
-    Container: $canvas
+    Container: $('.flows-canvas')
   });
 
   jsp.registerConnectionTypes({
@@ -48,13 +41,11 @@ jsPlumb.ready(function () {
         }
       ],
       paintStyle: {stroke: "#808080", strokeWidth: 2, outlineStroke: "transparent", outlineWidth: 4},
-      // hoverPaintStyle: { stroke: "#0044f7" },
       overlays: [
         ["Arrow", {width: 5, length: 10, location: 1, visible: true}]
       ]
     },
     "drag": {
-      // anchor: "Right",
       connector: ["Straight"],
       paintStyle: {stroke: "#2e0085", strokeWidth: 2},
       overlays: [
@@ -66,11 +57,30 @@ jsPlumb.ready(function () {
     }
   });
 
+  jsp.bind('connection',function(info){
+    var connection = info.connection;
+    var arr = jsp.select({source:connection.sourceId,target:connection.targetId});
+    if(arr.length>1){
+      jsp.deleteConnection(connection);
+    }
+    else {
+      connection.bind("click", function () {
+        connection.toggleType("selected");
+      });
+    }
+  });
+
+  jsp.bind("connectionDrag", function (connection) {
+    connection.removeType("basic");
+    connection.setType("drag");
+  });
+  jsp.bind("connectionDragStop", function (connection, origEvent) {
+    connection.removeType("drag");
+    connection.setType("basic");
+  });
+
   var optionsSource = {
-    anchor: "Right",
-    // ,
-    // connectorStyle: { stroke: "#5c96bc", strokeWidth: 2, outlineStroke: "transparent", outlineWidth: 4 },
-    // connector:"StateMachine"
+    anchor: "Right"
   };
   jsp.makeSource("box1out1", optionsSource);
   jsp.makeSource("box1out2", optionsSource);
@@ -79,14 +89,7 @@ jsPlumb.ready(function () {
   jsp.makeSource("box3out1", optionsSource);
 
   var optionsTarget = {
-    anchor: "Continuous",
-    // connectionType: 'basic',
-    // connectorStyle: { stroke: "#808080", strokeWidth: 2, outlineStroke: "transparent", outlineWidth: 4 },
-    dropOptions:{
-      drop:function(e, ui) {
-        // alert('drop!');
-      }
-    }
+    anchor: "Continuous"
   };
   jsp.makeTarget("box1", optionsTarget);
   jsp.makeTarget("box2", optionsTarget);
@@ -96,57 +99,11 @@ jsPlumb.ready(function () {
   jsp.draggable($('.flows-box'), {
     handle: '.flows-box__header__handle'
   });
-  jsp.bind('connection',function(info){
-    console.log(info);
-    var con = info.connection;
-    var arr = jsp.select({source:con.sourceId,target:con.targetId});
-    console.log(arr);
-    if(arr.length>1){
-      jsp.deleteConnection(con);
-    }
-    else {
-      con.bind("click", function () {
-        con.toggleType("selected");
-      });
-    }
-  });
-  // jsp.bind('beforeDrop',function(info){
-  //   console.log(info);
-  //   var con = info.connection;
-  //   var arr = jsp.select({source:info.sourceId,target:info.targetId});
-  //   console.log(arr);
-  //   if(arr.length>1){
-  //     jsp.deleteConnection(con);
-  //   }
-  //   else {
-  //     con.bind("click", function () {
-  //       con.toggleType("selected");
-  //     });
-  //   }
-  // });
-  var connection = jsp.connect({
+
+
+  jsp.connect({
     source: "box1out1",
     target: "box2",
-    type: "basic",
-    // endpoint: ["Rectangle", {
-    //   cssClass: "myEndpoint",
-    //   width: 10,
-    //   height: 10
-    // }]
-
-  });
-  // connection.bind("click", function () {
-  //   connection.toggleType("selected");
-  // });
-  jsp.bind("connectionDrag", function (connection) {
-    // console.log("connection " + connection.id + " is being dragged. suspendedElement is ", connection.suspendedElement, " of type ", connection.suspendedElementType);
-    connection.removeType("basic");
-    connection.setType("drag");
-  });
-  jsp.bind("connectionDragStop", function (connection, origEvent) {
-    console.log(connection, origEvent);
-    // console.log("connection " + connection.id + " is being dragged. suspendedElement is ", connection.suspendedElement, " of type ", connection.suspendedElementType);
-    connection.removeType("drag");
-    connection.setType("basic");
+    type: "basic"
   });
 });
