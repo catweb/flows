@@ -14,12 +14,16 @@
   font-size: 11px;
   line-height: 1;
   background: #ffffff;
-  &.active {
+  z-index: 10;
+  &.flows-active {
     .flows-box__header {
       background-color: #9ecaed;
       color: #000000;
     }
   }
+}
+.flows-drag {
+  z-index: 20;
 }
 .flows-box__header {
   position: relative;

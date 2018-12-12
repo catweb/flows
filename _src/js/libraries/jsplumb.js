@@ -5520,7 +5520,7 @@
             return new root.jsPlumb.DynamicAnchor({anchors: anchors, selector: anchorSelector, elementId: null, jsPlumbInstance: _currentInstance});
         };
 
-// --------------------- makeSource/makeTarget ---------------------------------------------- 
+// --------------------- makeSource/makeTarget ----------------------------------------------
 
         this.targetEndpointDefinitions = {};
         this.sourceEndpointDefinitions = {};
@@ -6583,7 +6583,7 @@
 
 // --------------------- static instance + module registration -------------------------------------------
 
-// create static instance and assign to window if window exists.	
+// create static instance and assign to window if window exists.
     var jsPlumb = new jsPlumbInstance();
     // register on 'root' (lets us run on server or browser)
     root.jsPlumb = jsPlumb;
@@ -6620,7 +6620,7 @@
         exports.jsPlumb = jsPlumb;
     }
 
-// --------------------- end static instance + AMD registration -------------------------------------------		
+// --------------------- end static instance + AMD registration -------------------------------------------
 
 }).call(typeof window !== 'undefined' ? window : this);
 
@@ -7517,10 +7517,10 @@
  * This file contains the code for Endpoints.
  *
  * Copyright (c) 2010 - 2018 jsPlumb (hello@jsplumbtoolkit.com)
- * 
+ *
  * https://jsplumbtoolkit.com
  * https://github.com/jsplumb/jsplumb
- * 
+ *
  * Dual licensed under the MIT and GPL2 licenses.
  */
 ;(function () {
@@ -8090,7 +8090,7 @@
 
                     _makeDraggablePlaceholder(placeholderInfo, _jsPlumb, ipco, ips);
 
-                    // store the id of the dragging div and the source element. the drop function will pick these up.                   
+                    // store the id of the dragging div and the source element. the drop function will pick these up.
                     _jsPlumb.setAttributes(this.canvas, {
                         "dragId": placeholderInfo.id,
                         "elId": this.elementId
@@ -8114,7 +8114,7 @@
                     if (jpc == null) {
 
                         this.setHover(false, false);
-                        // create a connection. one end is this endpoint, the other is a floating endpoint.                    
+                        // create a connection. one end is this endpoint, the other is a floating endpoint.
                         jpc = _newConnection({
                             sourceEndpoint: this,
                             targetEndpoint: this._jsPlumb.floatingEndpoint,
@@ -8886,7 +8886,7 @@
 
         _jp.OverlayCapableJsPlumbUIComponent.apply(this, arguments);
 
-        // sourceEndpoint and targetEndpoint override source/target, if they are present. but 
+        // sourceEndpoint and targetEndpoint override source/target, if they are present. but
         // source is not overridden if the Endpoint has declared it is not the final target of a connection;
         // instead we use the source that the Endpoint declares will be the final source element.
         if (params.sourceEndpoint) {
@@ -8904,7 +8904,7 @@
         }
 
 
-        this.scope = params.scope; // scope may have been passed in to the connect call. if it wasn't, we will pull it from the source endpoint, after having initialised the endpoints.            
+        this.scope = params.scope; // scope may have been passed in to the connect call. if it wasn't, we will pull it from the source endpoint, after having initialised the endpoints.
         this.endpoints = [];
         this.endpointStyles = [];
 
@@ -9076,7 +9076,7 @@
 
         this.updateConnectedClass();
 
-// END PAINTING    
+// END PAINTING
     };
 
     _ju.extend(_jp.Connection, _jp.OverlayCapableJsPlumbUIComponent, {
@@ -9435,7 +9435,7 @@
             return e;
         }
 
-    }); // END Connection class            
+    }); // END Connection class
 }).call(typeof window !== 'undefined' ? window : this);
 
 /*
@@ -10404,14 +10404,14 @@
         return anchor.constructor === _jp.Anchor ? anchor : jsPlumbInstance.makeAnchor(anchor, elementId, jsPlumbInstance);
     };
 
-    /* 
+    /*
      * A DynamicAnchor is an Anchor that contains a list of other Anchors, which it cycles
      * through at compute time to find the one that is located closest to
      * the center of the target element, and returns that Anchor's compute
      * method result. this causes endpoints to follow each other with
      * respect to the orientation of their target elements, which is a useful
      * feature for some applications.
-     * 
+     *
      */
     _jp.DynamicAnchor = function (params) {
         _jp.Anchor.apply(this, arguments);
@@ -10538,7 +10538,7 @@
     };
     _ju.extend(_jp.DynamicAnchor, _jp.Anchor);
 
-// -------- basic anchors ------------------    
+// -------- basic anchors ------------------
     var _curryAnchor = function (x, y, ox, oy, type, fnInit) {
         _jp.Anchors[type] = function (params) {
             var a = params.jsPlumbInstance.makeAnchor([ x, y, ox, oy, 0, 0 ], params.elementId, params.jsPlumbInstance);
@@ -10565,7 +10565,7 @@
     _curryAnchor(0, 0, 0, -1, "TopLeft");
     _curryAnchor(0, 1, 0, 1, "BottomLeft");
 
-// ------- dynamic anchors -------------------    
+// ------- dynamic anchors -------------------
 
     // default dynamic anchors chooses from Top, Right, Bottom, Left
     _jp.Defaults.DynamicAnchors = function (params) {
@@ -10579,7 +10579,7 @@
         return a;
     };
 
-// ------- continuous anchors -------------------    
+// ------- continuous anchors -------------------
 
     var _curryContinuousAnchor = function (type, faces) {
         _jp.Anchors[type] = function (params) {
@@ -10598,7 +10598,7 @@
     _curryContinuousAnchor("ContinuousBottom", ["bottom"]);
     _curryContinuousAnchor("ContinuousRight", ["right"]);
 
-// ------- position assign anchors -------------------    
+// ------- position assign anchors -------------------
 
     // this anchor type lets you assign the position at connection time.
     _curryAnchor(0, 0, 0, 0, "Assign", function (anchor, params) {
@@ -10627,7 +10627,7 @@
         }
     };
 
-// ------- perimeter anchors -------------------    
+// ------- perimeter anchors -------------------
 
     _jp.Anchors.Perimeter = function (params) {
         params = params || {};
@@ -10751,10 +10751,10 @@
  * This file contains the default Connectors, Endpoint and Overlay definitions.
  *
  * Copyright (c) 2010 - 2018 jsPlumb (hello@jsplumbtoolkit.com)
- * 
+ *
  * https://jsplumbtoolkit.com
  * https://github.com/jsplumb/jsplumb
- * 
+ *
  * Dual licensed under the MIT and GPL2 licenses.
  */
 ;
@@ -10773,7 +10773,7 @@
          * much easier to do now.
          *
          * A Segment is responsible for providing coordinates for painting it, and also must be able to report its length.
-         * 
+         *
          */
         AbstractSegment: function (params) {
             this.params = params;
@@ -10926,7 +10926,7 @@
                     out.y = within(y1, y2, y) ? y : closest(y1, y2, y);
                 }
                 else {
-                    // closest point lies on normal from given point to this line.  
+                    // closest point lies on normal from given point to this line.
                     var b = y1 - (m * x1),
                         b2 = y - (m2 * x),
                     // y1 = m.x1 + b and y1 = m2.x1 + b2
@@ -11016,7 +11016,7 @@
                 this.startAngle += TWO_PI;
             }
 
-            // segment is used by vml     
+            // segment is used by vml
             //this.segment = _jg.quadrant([this.x1, this.y1], [this.x2, this.y2]);
 
             // we now have startAngle and endAngle as positive numbers, meaning the
@@ -11739,7 +11739,7 @@
 // ********************************* END OF ENDPOINT TYPES *******************************************************************
 
 
-// ********************************* OVERLAY DEFINITIONS ***********************************************************************    
+// ********************************* OVERLAY DEFINITIONS ***********************************************************************
 
     var AbstractOverlay = _jp.Overlays.AbstractOverlay = function (params) {
         this.visible = true;
@@ -11934,7 +11934,7 @@
 
     /*
      * Class: Overlays.Diamond
-     * 
+     *
      * A diamond. Like PlainArrow, this is a concrete case of the more generic case of the tail points converging on some point...it just
      * happens that in this case, that point is greater than the length of the the arrow.
      *
@@ -12128,7 +12128,7 @@
      */
     /*
      * Function: Constructor
-     * 
+     *
      * Parameters:
      * create - function for jsPlumb to call that returns a DOM element.
      * location - distance (as a decimal from 0 to 1 inclusive) marking where the label should sit on the connector. defaults to 0.5.
@@ -12178,7 +12178,7 @@
      */
     /*
      * Function: Constructor
-     * 
+     *
      * Parameters:
      * cssClass - optional css class string to append to css class. This string is appended "as-is", so you can of course have multiple classes
      *             defined.  This parameter is preferred to using labelStyle, borderWidth and borderStyle.
@@ -12186,7 +12186,7 @@
      *         label function returns null.  empty strings _will_ be painted.
      * location - distance (as a decimal from 0 to 1 inclusive) marking where the label should sit on the connector. defaults to 0.5.
      * id - optional id to use for later retrieval of this overlay.
-     * 
+     *
      *
      */
     _jp.Overlays.Label = function (params) {
@@ -13727,7 +13727,7 @@
  *
  * https://jsplumbtoolkit.com
  * https://github.com/jsplumb/jsplumb
- * 
+ *
  * Dual licensed under the MIT and GPL2 licenses.
  */
 ;
@@ -13951,16 +13951,16 @@
  * This file contains the SVG renderers.
  *
  * Copyright (c) 2010 - 2018 jsPlumb (hello@jsplumbtoolkit.com)
- * 
+ *
  * https://jsplumbtoolkit.com
  * https://github.com/jsplumb/jsplumb
- * 
+ *
  * Dual licensed under the MIT and GPL2 licenses.
  */
 ;
 (function () {
 
-// ************************** SVG utility methods ********************************************	
+// ************************** SVG utility methods ********************************************
 
     "use strict";
     var root = this, _jp = root.jsPlumb, _ju = root.jsPlumbUtil;
@@ -14317,7 +14317,7 @@
     };
     _ju.extend(_jp.ConnectorRenderers.svg, SvgComponent);
 
-// ******************************* svg segment renderer *****************************************************	
+// ******************************* svg segment renderer *****************************************************
 
 
 // ******************************* /svg segments *****************************************************
@@ -14574,10 +14574,10 @@
  * This file contains the 'vanilla' adapter - having no external dependencies other than bundled libs.
  *
  * Copyright (c) 2010 - 2018 jsPlumb (hello@jsplumbtoolkit.com)
- * 
+ *
  * https://jsplumbtoolkit.com
  * https://github.com/jsplumb/jsplumb
- * 
+ *
  * Dual licensed under the MIT and GPL2 licenses.
  */
 ;
