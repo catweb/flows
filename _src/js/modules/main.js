@@ -2,7 +2,8 @@ class FlowsCanvas {
   constructor(canvas){
     const that = this;
     const jsp = this.jsp = jsPlumb.getInstance({
-      Endpoint: ["Dot", {radius: 1, cssClass: 'flows-hidden'}],
+      // Endpoint: ["Dot", {radius: 1, cssClass: 'flows-hidden'}],
+      Endpoint: ["Rectangle", {width: 10, height: 10}],
       Connector: ["Flowchart",
         {
           gap: 0,
@@ -38,7 +39,7 @@ class FlowsCanvas {
         connector: ["Straight"],
         paintStyle: {stroke: "#2e0085", strokeWidth: 2},
         overlays: [
-          ["Arrow", {width: 5, length: 10, location: 1}]
+          ["Arrow", {width: 5, length: 10, location: 1, visible: true}]
         ]
       },
       "selected": {
@@ -123,7 +124,8 @@ class FlowsCanvas {
     });
     elem.find('.flows-box__output').each(function () {
       jsp.makeSource($(this), {
-        anchor: "Right"
+        anchor: "Right",
+        endpoint: 'Blank'
       });
     });
     elem.find('.flows-box__header__close').on('click', function () {
