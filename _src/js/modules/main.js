@@ -2,8 +2,6 @@ class FlowsCanvas {
   constructor(canvas){
     const that = this;
     const jsp = this.jsp = jsPlumb.getInstance({
-      // Endpoint: ["Dot", {radius: 1, cssClass: 'flows-hidden'}],
-      Endpoint: ["Rectangle", {width: 10, height: 10}],
       Connector: ["Flowchart",
         {
           gap: 0,
@@ -19,10 +17,15 @@ class FlowsCanvas {
           id: "ARROW"
         }]
       ],
+      PaintStyle: {stroke: "#808080", strokeWidth: 2, outlineStroke: "transparent", outlineWidth: 4},
       Container: canvas
     });
     jsp.registerConnectionTypes({
       "basic": {
+        endpoints: [
+          ["Blank", {}],
+          ["Rectangle", {width: 10, height: 10, cssClass:'flows-endpoint'}]
+        ],
         anchors: [["Right"], ["Continuous", { faces:[ "top", "left", "bottom" ] }]],
         connector: ["Flowchart",
           {
@@ -36,6 +39,10 @@ class FlowsCanvas {
         ]
       },
       "drag": {
+        endpoints: [
+          ["Blank", {}],
+          ["Blank", {}]
+        ],
         connector: ["Straight"],
         paintStyle: {stroke: "#2e0085", strokeWidth: 2},
         overlays: [
@@ -58,6 +65,8 @@ class FlowsCanvas {
       }
       else {
         jsp.fire('connectionAdd', connection);
+
+        connection.unbind('click');
         connection.bind("click", function () {
           if(connection.hasType('selected')){
             connection.removeType("selected");
@@ -73,14 +82,14 @@ class FlowsCanvas {
     });
 
     jsp.bind("connectionDrag", function (connection) {
-      connection.removeType("basic");
-      connection.setType("drag");
+      // connection.removeType("basic");
+      // connection.addType("drag");
       connection.addClass('flows-drag');
     });
 
     jsp.bind("connectionDragStop", function (connection, origEvent) {
-      connection.removeType("drag");
-      connection.setType("basic");
+      // connection.removeType("drag");
+      // connection.addType("basic");
       connection.removeClass('flows-drag');
     });
 
@@ -105,8 +114,7 @@ class FlowsCanvas {
   connect(source, target){
     this.jsp.connect({
       source: source,
-      target: target,
-      type: "basic"
+      target: target
     });
   }
 
@@ -114,7 +122,9 @@ class FlowsCanvas {
     let that = this;
     let jsp = this.jsp;
     this.jsp.makeTarget(elem, {
-      anchor: "Continuous"
+      anchor: ["Continuous", { faces:[ "top", "left", "bottom" ] }],
+      endpoint: ["Rectangle", {width: 10, height: 10, cssClass: 'flows-endpoint'}],
+      paintStyle:{fill: "blue"}
     });
     this.jsp.draggable(elem, {
       handle: '.flows-box__header__handle',
@@ -159,8 +169,7 @@ jsPlumb.ready(function () {
     boxes.each(function () {
       canvas.makeItem($(this));
     });
-    canvas.connect('box1out1','box2');
-    canvas.connect('box3out1','box2');
+
     canvas.jsp.bind('connectionDelete', function (connection) {
       console.log('connectionDelete:', connection);
     });
@@ -170,6 +179,9 @@ jsPlumb.ready(function () {
     canvas.jsp.bind('itemDelete', function (elem) {
       console.log('itemDelete:', elem);
     });
+
+    canvas.connect('box1out1','box2');
+    canvas.connect('box3out1','box2');
 
   });
 });
